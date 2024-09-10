@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: CloudFormation Template To Create Alfredo's Inventory DynamoDB Table
+Description: CloudFormation Template To Create CJ's Inventory DynamoDB Table
 
 Resources:
   InventoryTable:
@@ -31,5 +31,5 @@ Parameters:
 
 Outputs:
   Inventory:
-    Description: Alfredo's Inventory Table
+    Description: CJ's Inventory Table
     Value: !Ref InventoryTable
