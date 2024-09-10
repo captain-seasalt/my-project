@@ -3,7 +3,7 @@ import requests
 
 # Constants
 GITHUB_API_URL = "https://api.github.com"
-ORG_NAME = "wmgtech"
+ORG_NAME = "CJ"
 TOKEN = os.getenv('TEST')  # Fetch the 'TEST' secret from environment
 
 if TOKEN is None:
@@ -15,7 +15,7 @@ headers = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-# Step 1: Get repositories starting with "wcm-tango"
+# Step 1: Get repositories starting with "CJ-123"
 def get_repositories(org_name):
     url = f"{GITHUB_API_URL}/orgs/{org_name}/repos"
     repos = []
@@ -24,10 +24,10 @@ def get_repositories(org_name):
     while url:
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
-        repos.extend([repo for repo in response.json() if repo['name'].startswith('wcm-tango')])
+        repos.extend([repo for repo in response.json() if repo['name'].startswith('CJ-123')])
         url = response.links.get('next', {}).get('url')
     
-    print(f"Found {len(repos)} repositories starting with 'wcm-tango'")
+    print(f"Found {len(repos)} repositories starting with 'CJ-123'")
     return repos
 
 # Step 2: Get secret scanning alerts for each repository
