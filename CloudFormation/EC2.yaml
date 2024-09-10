@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to launch a Kali Linux EC2 instance
+
+Parameters:
+  InstanceType:
+    Description: EC2 instance type
+    Type: String
+    Default: t3.medium
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t3.medium
+      - t3.large
+    ConstraintDescription: Must be a valid EC2 instance type.
+
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access
+    Type: AWS::EC2::KeyPair::KeyName
+    ConstraintDescription: Must be the name of an existing EC2 KeyPair.
+
+Resources:
+  KaliLinuxInstance:
+    Type: AWS::EC2::Instance
+    Properties: 
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      ImageId: ami-xxxxxxxxxxxxxxxxx # Replace with the Kali Linux AMI ID for your region
+      SecurityGroupIds: 
+        - !Ref InstanceSecurityGroup
+      Tags:
+        - Key: Name
+          Value: KaliLinuxInstance
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0  # Allow SSH from any IP; (this is just an example, it should be locked down for more security)
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID of the Kali Linux EC2 instance
+    Value: !Ref KaliLinuxInstance
+  PublicIP:
+    Description: The public IP address of the Kali Linux EC2 instance
+    Value: !GetAtt KaliLinuxInstance.PublicIp
